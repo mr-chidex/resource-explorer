@@ -67,7 +67,7 @@ const HomePage = () => {
   };
   return (
     <main className="container mx-auto p-4">
-      <h1 className="text-4xl font-bold mb-8 text-center">
+      <h1 className="text-4xl font-bold mb-8 text-center text-slate-800">
         PokéAPI Resource Explorer
       </h1>
 
