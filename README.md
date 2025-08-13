@@ -1,36 +1,49 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# RXplorer: The PokéAPI Resource Explorer
 
-## Getting Started
+RXplorer is a web application designed to be a fast and efficient way to explore Pokémon data from the official PokéAPI. It features an infinite scroll, dynamic search, and a responsive UI with a light/dark mode toggle.
 
-First, run the development server:
+## How to Run
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+To get the project up and running locally, follow these steps:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1.  **Clone the repository:**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+    ```bash
+    git clone [https://github.com/mr-chidex/resource-explorer]
+    cd RXplorer
+    ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2.  **Install dependencies:**
 
-## Learn More
+    ```bash
+    npm install
+    ```
 
-To learn more about Next.js, take a look at the following resources:
+3.  **Run the development server:**
+    ```bash
+    npm run dev
+    ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The application will be accessible at `http://localhost:3000`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## Architecture and Trade‑offs
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The application is built using a modern **Next.js** framework with a client-side state management and data-fetching strategy.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Client-Side Data Fetching**: We utilize the **SWR** library for data fetching. While this means the initial page load doesn't contain a full list of Pokémon (requiring a client-side fetch), it provides significant benefits. SWR's caching and revalidation features make subsequent data requests extremely fast, and its infinite scroll capabilities allow for a seamless user experience. The trade-off is a slightly slower initial render compared to server-side rendering all the data at once, but this is a deliberate choice to improve the responsiveness and scalability of the app for a large dataset.
+
+- **Zustand for State Management**: We chose **Zustand** as a lightweight and performant state management solution for simple global states like the theme and favorite Pokémon. It's a pragmatic choice that avoids the boilerplate of larger state management libraries like Redux while still providing robust global state.
+
+- **CSS-in-JS vs. Utility-First**: The project uses **Tailwind CSS**, a utility-first framework, for styling. This allows for rapid development and a consistent design language without writing custom CSS, which is a great trade-off for a solo project.
+
+---
+
+## If I Had More Time
+
+If I had more time, here’s what I'd ship next and why:
+
+1.  **Virtualization with React Window**: While our infinite scroll implementation fetches data efficiently, the browser can still become sluggish as thousands of Pokémon are loaded and rendered into the DOM. Implementing a virtualization library like **React Window** would solve this by only rendering the items that are currently visible within the viewport. This is a crucial performance optimization that would prevent the page from slowing down on large lists, providing a consistently smooth experience.
+
+2.  **Accessibility (a11y) Improvements**: I would conduct a full accessibility audit of the application. This would include ensuring all interactive elements have proper ARIA labels, keyboard navigation is seamless, and color contrasts meet WCAG standards, particularly for the light/dark mode toggle.
