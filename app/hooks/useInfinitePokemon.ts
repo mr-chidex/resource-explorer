@@ -6,7 +6,7 @@ const PAGE_SIZE = 50; // Load 50 Pokémon at a time
 export const useInfinitePokemon = (searchQuery: string = "") => {
   const getKey = (
     pageIndex: number,
-    previousPageData: PokemonListResponse | null
+    previousPageData: PokemonListResponse | null,
   ) => {
     // Reached the end
     if (previousPageData && !previousPageData.next) return null;
@@ -33,7 +33,7 @@ export const useInfinitePokemon = (searchQuery: string = "") => {
   // Filter by search query
   const filteredPokemon = searchQuery
     ? allPokemon.filter((pokemon) =>
-        pokemon.name.toLowerCase().includes(searchQuery.toLowerCase())
+        pokemon.name.toLowerCase().includes(searchQuery.toLowerCase()),
       )
     : allPokemon;
 

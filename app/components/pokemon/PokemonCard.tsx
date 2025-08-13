@@ -22,7 +22,7 @@ interface PokemonDetail {
 export const PokemonCard = ({ pokemon }: PokemonCardProps) => {
   const { data: pokemonData, isLoading } = useSWR<PokemonDetail>(
     pokemon.url,
-    fetcher
+    fetcher,
   );
 
   const imageUrl = pokemonData?.sprites.other["official-artwork"].front_default;

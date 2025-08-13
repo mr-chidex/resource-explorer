@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState } from "react";
 
 export function useIntersectionObserver(
-  options: IntersectionObserverInit = {}
+  options: IntersectionObserverInit = {},
 ) {
   const [entry, setEntry] = useState<IntersectionObserverEntry>();
   const [node, setNode] = useState<HTMLElement | null>(null);
@@ -14,7 +14,7 @@ export function useIntersectionObserver(
     }
     observer.current = new IntersectionObserver(
       ([ent]) => setEntry(ent),
-      options
+      options,
     );
     const { current: currentObserver } = observer;
 

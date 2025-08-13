@@ -19,7 +19,7 @@ const HomePageIndex = () => {
 
   const favorites = useFavoriteStore((state) => state.favorites);
   const [showFavorites, setShowFavorites] = useState(
-    searchParams.get("favorites") === "true"
+    searchParams.get("favorites") === "true",
   );
 
   const [setObserveNode, entry] = useIntersectionObserver({
@@ -78,8 +78,6 @@ const HomePageIndex = () => {
     }
   }, [entry, hasMore, isLoadingMore, loadMore]);
 
-  const isInitialLoading = isLoading && filteredPokemon.length === 0; // Prevents loading flicker on page load
-
   return (
     <main className="container mx-auto p-4">
       <h1 className="text-2xl md:text-4xl font-bold mb-8 text-center text-slate-800 dark:text-slate-100">
@@ -103,9 +101,7 @@ const HomePageIndex = () => {
         </button>
       </div>
 
-      {isInitialLoading ? (
-        <LoadingSkeleton />
-      ) : isLoading || isRefetching ? (
+      {isLoading || isRefetching ? (
         <LoadingSkeleton />
       ) : !isLoading && error ? (
         <div className="text-red-500 text-center flex flex-col items-center gap-4">

@@ -23,6 +23,6 @@ export const useFavoriteStore = create<FavoriteState>()(
     }),
     {
       name: "favorites",
-    }
-  )
+    },
+  ),
 );

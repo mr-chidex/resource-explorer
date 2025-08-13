@@ -53,7 +53,7 @@ const PokemonDetailsIndex = () => {
     isLoading,
   } = useSWR<PokemonDetails>(
     pokemonName ? `https://pokeapi.co/api/v2/pokemon/${pokemonName}` : null,
-    fetcher
+    fetcher,
   );
 
   if (isLoading) {
@@ -158,7 +158,7 @@ const PokemonDetailsIndex = () => {
                 <span
                   key={type.type.name}
                   className={`px-3 py-1 rounded-full text-white text-sm font-medium ${getTypeColor(
-                    type.type.name
+                    type.type.name,
                   )}`}
                 >
                   {type.type.name.charAt(0).toUpperCase() +
@@ -207,7 +207,7 @@ const PokemonDetailsIndex = () => {
                       style={{
                         width: `${Math.min(
                           (stat.base_stat / 255) * 100,
-                          100
+                          100,
                         )}%`,
                       }}
                     ></div>
