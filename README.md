@@ -47,3 +47,5 @@ If I had more time, here’s what I'd ship next and why:
 1.  **Virtualization with React Window**: While our infinite scroll implementation fetches data efficiently, the browser can still become sluggish as thousands of Pokémon are loaded and rendered into the DOM. Implementing a virtualization library like **React Window** would solve this by only rendering the items that are currently visible within the viewport. This is a crucial performance optimization that would prevent the page from slowing down on large lists, providing a consistently smooth experience.
 
 2.  **Accessibility (a11y) Improvements**: I would conduct a full accessibility audit of the application. This would include ensuring all interactive elements have proper ARIA labels, keyboard navigation is seamless, and color contrasts meet WCAG standards, particularly for the light/dark mode toggle.
+
+3.  **Scroll Position Restoration**: A key user experience enhancement would be to restore the list's scroll position when a user navigates back to the home page. This would prevent the user from losing their place in the list, providing a seamless and frustration-free Browse experience.
