@@ -84,9 +84,13 @@ const Header = () => {
       <div
         className={`md:hidden ${
           isMobileMenuOpen ? "block" : "hidden"
-        } bg-white border-t border-gray-200`}
+        } bg-slate-100 dark:bg-slate-700 border-t border-slate-200 dark:border-slate-500`}
       >
         <div className="flex flex-col space-y-2 p-4">
+          <div className="w-fit">
+            <ThemeToggle />
+          </div>
+
           <NavLink
             href="/?favorites=true"
             text="Favorites"

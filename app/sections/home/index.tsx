@@ -80,7 +80,7 @@ const HomePageIndex = () => {
 
   return (
     <main className="container mx-auto p-4">
-      <h1 className="text-4xl font-bold mb-8 text-center text-slate-800 dark:text-slate-100">
+      <h1 className="text-2xl md:text-4xl font-bold mb-8 text-center text-slate-800 dark:text-slate-100">
         PokéAPI Resource Explorer
       </h1>
 
@@ -90,7 +90,7 @@ const HomePageIndex = () => {
           placeholder="Search Pokémon..."
           value={search}
           onChange={handleSearchChange}
-          className="w-full md:w-1/2 px-3 py-3 border bg-white  border-slate-400 outline-none rounded-sm focus:ring-slate-500 focus:border-slate-500"
+          className="w-full md:w-1/2 px-3 py-3 border bg-white  border-slate-300 outline-none rounded-sm focus:ring-slate-500 focus:border-slate-500"
         />
         <button
           onClick={handleToggleFavorites}
