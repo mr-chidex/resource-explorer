@@ -22,7 +22,7 @@ const HomePageIndex = () => {
     searchParams.get("favorites") === "true",
   );
 
-  const [, entry] = useIntersectionObserver({
+  const [setObserveNode, entry] = useIntersectionObserver({
     threshold: 0.1,
   });
 
@@ -102,9 +102,7 @@ const HomePageIndex = () => {
       </div>
 
       {isLoading || isRefetching ? (
-        <div className="container mx-auto">
-          <LoadingSkeleton />
-        </div>
+        <LoadingSkeleton />
       ) : !isLoading && error ? (
         <div className="text-red-500 text-center flex flex-col items-center gap-4">
           <p>Failed to load Pokémon. Please try again.</p>
@@ -129,7 +127,7 @@ const HomePageIndex = () => {
         </div>
       )}
 
-      {/* {!isLoading && hasMore && (
+      {!isLoading && hasMore && (
         <div ref={setObserveNode} className="text-center mt-16">
           {isLoadingMore ? (
             <div className="text-blue-500 font-semibold">
@@ -146,7 +144,7 @@ const HomePageIndex = () => {
         <div className="text-center mt-16 text-slate-500 dark:text-slate-300">
           End of Pokémon list.
         </div>
-      )} */}
+      )}
     </main>
   );
 };
