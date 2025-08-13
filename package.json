@@ -10,9 +10,11 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
+    "@types/react-window": "^1.8.8",
     "next": "15.4.6",
     "react": "19.1.0",
     "react-dom": "19.1.0",
+    "react-window": "^1.8.11",
     "swr": "^2.3.6",
     "zustand": "^5.0.7"
   },

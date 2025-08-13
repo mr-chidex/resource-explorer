@@ -3,17 +3,12 @@ import React from "react";
 const MoonIcon = () => {
   return (
     <svg
-      className="w-5 h-5 text-gray-600"
-      fill="none"
-      stroke="currentColor"
+      xmlns="http://www.w3.org/2000/svg"
+      className="h-6 w-6"
       viewBox="0 0 24 24"
+      fill="currentColor"
     >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-      />
+      <path d="M12 21a9 9 0 01-9-9c0-.62.08-1.22.21-1.8A7.5 7.5 0 1012 21z" />
     </svg>
   );
 };

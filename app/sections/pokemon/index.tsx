@@ -116,7 +116,7 @@ const PokemonDetailsIndex = () => {
       <div className="mb-6">
         <Link
           href="/"
-          className="inline-flex items-center text-slate-600 hover:text-slate-800 transition-colors"
+          className="inline-flex items-center text-slate-600 dark:text-slate-100 hover:text-slate-800 dark:hover:text-slate-300 transition-colors"
         >
           <ArrowLeftIcon className="w-4 h-4 mr-2" />
           Back to Pokémon List
@@ -126,7 +126,6 @@ const PokemonDetailsIndex = () => {
       {/* Pokémon Header */}
       <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
         <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
-          {/* Image */}
           <div className="relative">
             <Image
               src={

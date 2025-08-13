@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import HamburgerIcon from "../icons/Hamburger";
+import ThemeToggle from "./ThemeToggle";
 
 interface NavLinkProps {
   href: string;
@@ -15,8 +16,8 @@ interface NavLinkProps {
 const NavLink = ({ href, text, pathname, mobile = false }: NavLinkProps) => {
   const isActive = pathname === href;
   const activeClass = isActive
-    ? "text-slate-700 font-semibold"
-    : "text-slate-600 hover:text-slate-700";
+    ? "text-slate-700 dark:text-slate-300 font-semibold"
+    : "text-slate-600 dark:text-slate-100 hover:text-slate-700 dark:hover:text-slate-300";
   const baseClass = mobile ? "block py-2 text-lg" : "text-sm font-medium";
 
   return (
@@ -45,14 +46,14 @@ const Header = () => {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-white/20 transition-shadow duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-slate-800 backdrop-blur-md border-b border-white/20 dark:border-slate-800 transition-shadow duration-300 ${
         isScrolled ? "shadow-md" : "shadow-none"
       }`}
     >
       <div className="container mx-auto px-4 py-5 flex justify-between items-center">
         <Link
           href="/"
-          className="text-2xl font-bold text-slate-800 tracking-wide"
+          className="text-2xl font-bold text-slate-800 dark:text-slate-100 tracking-wide"
         >
           RXplorer
         </Link>
@@ -65,6 +66,7 @@ const Header = () => {
             pathname={pathname}
           />
           <NavLink href="/about" text="About" pathname={pathname} />
+          <ThemeToggle />
         </div>
 
         {/* Mobile Hamburger Menu Button */}

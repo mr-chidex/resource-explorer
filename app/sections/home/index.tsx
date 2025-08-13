@@ -1,13 +1,13 @@
 "use client";
 
-import useSWR from "swr";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDebounce } from "@/app/hooks/useDebounce";
 import { useFavoriteStore } from "@/app/state/useFavoriteStore";
-import { fetcher, PokemonListResponse } from "@/app/lib/api";
 import LoadingSkeleton from "@/app/components/shared/LoadingSkeleton";
 import { PokemonCard } from "@/app/components/pokemon/PokemonCard";
+import { useInfinitePokemon } from "@/app/hooks/useInfinitePokemon";
+import { useIntersectionObserver } from "@/app/hooks/useIntersectionObserver";
 
 const HomePageIndex = () => {
   const router = useRouter();
@@ -22,18 +22,23 @@ const HomePageIndex = () => {
     searchParams.get("favorites") === "true"
   );
 
-  const url = `https://pokeapi.co/api/v2/pokemon?limit=150`;
+  const [setObserveNode, entry] = useIntersectionObserver({
+    threshold: 0.1,
+  });
 
-  const { data, error, mutate, isLoading } = useSWR<PokemonListResponse>(
-    url,
-    fetcher
-  );
+  const {
+    pokemon: allPokemon,
+    error,
+    isLoading,
+    isLoadingMore,
+    hasMore,
+    loadMore,
+    mutate,
+  } = useInfinitePokemon(debouncedSearch);
 
-  const filteredPokemon = data?.results
-    .filter((pokemon) =>
-      pokemon.name.toLowerCase().includes(debouncedSearch.toLowerCase())
-    )
-    .filter((pokemon) => !showFavorites || favorites.includes(pokemon.name));
+  const filteredPokemon = showFavorites
+    ? allPokemon.filter((p) => favorites.includes(p.name))
+    : allPokemon;
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
@@ -66,9 +71,16 @@ const HomePageIndex = () => {
     setIsRefetching(false);
   };
 
+  // To trigger loadMore when the observer's target becomes visible
+  useEffect(() => {
+    if (entry?.isIntersecting && hasMore && !isLoadingMore) {
+      loadMore();
+    }
+  }, [entry, hasMore, isLoadingMore, loadMore]);
+
   return (
     <main className="container mx-auto p-4">
-      <h1 className="text-4xl font-bold mb-8 text-center text-slate-800">
+      <h1 className="text-4xl font-bold mb-8 text-center text-slate-800 dark:text-slate-100">
         PokéAPI Resource Explorer
       </h1>
 
@@ -78,15 +90,12 @@ const HomePageIndex = () => {
           placeholder="Search Pokémon..."
           value={search}
           onChange={handleSearchChange}
-          className="w-full md:w-1/2 px-3 py-3 border border-slate-400 outline-none rounded-sm focus:ring-slate-500 focus:border-slate-500"
+          className="w-full md:w-1/2 px-3 py-3 border bg-white  border-slate-400 outline-none rounded-sm focus:ring-slate-500 focus:border-slate-500"
         />
         <button
           onClick={handleToggleFavorites}
-          className={`px-4 py-2 rounded-md font-semibold transition-colors ${
-            showFavorites
-              ? "bg-red-500 text-white"
-              : "bg-gray-200 text-gray-800"
-          }`}
+          className={`px-4 py-3 rounded-md font-semibold border bg-white border-slate-300  text-slate-800 transition-colors
+            `}
         >
           {showFavorites ? "Show All" : "Show Favorites"}
         </button>
@@ -108,13 +117,32 @@ const HomePageIndex = () => {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {filteredPokemon?.length === 0 && !isLoading && (
-            <div className="col-span-full text-center text-gray-500 text-lg">
+            <div className="col-span-full text-center text-slate-600 dark:text-slate-200 text-lg">
               No Pokémon found.
             </div>
           )}
           {filteredPokemon?.map((pokemon) => (
             <PokemonCard key={pokemon.name} pokemon={pokemon} />
           ))}
+        </div>
+      )}
+
+      {!isLoading && hasMore && (
+        <div ref={setObserveNode} className="text-center mt-16">
+          {isLoadingMore ? (
+            <div className="text-blue-500 font-semibold">
+              Loading more Pokémon...
+            </div>
+          ) : (
+            <div className="text-slate-700 dark:text-slate-100">
+              Scroll down to load more
+            </div>
+          )}
+        </div>
+      )}
+      {!hasMore && !isLoading && (
+        <div className="text-center mt-16 text-slate-500 dark:text-slate-300">
+          End of Pokémon list.
         </div>
       )}
     </main>
