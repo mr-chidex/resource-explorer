@@ -7,16 +7,32 @@ interface PokemonCardProps {
 }
 
 export const PokemonCard = ({ pokemon }: PokemonCardProps) => {
-  const id = pokemon.url.split("/").slice(-2, -1)[0];
-
   return (
-    <div className="flex items-center justify-between px-4 py-8 bg-gray-100 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-      <Link href={`/pokemon/${id}`} className="flex-grow">
-        <h3 className="text-lg font-semibold capitalize text-blue-600 hover:underline">
-          {pokemon.name}
-        </h3>
-      </Link>
-      <FavoriteButton pokemonName={pokemon.name} />
-    </div>
+    <Link
+      href={`/pokemon/${pokemon.name}`}
+      className="block bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105 border border-gray-100 hover:border-blue-200"
+    >
+      <div className="p-6">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-xl font-semibold capitalize text-slate-800">
+            {pokemon.name}
+          </h3>
+          <FavoriteButton
+            pokemonName={pokemon.name}
+            className="flex-shrink-0"
+          />
+        </div>
+
+        <div className="w-full h-32 bg-gradient-to-br from-blue-50 to-indigo-100 rounded-lg flex items-center justify-center mb-4">
+          <span className="text-slate-400 text-sm">Click to view details</span>
+        </div>
+
+        <div className="text-center">
+          <span className="inline-block px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full font-medium">
+            View Details →
+          </span>
+        </div>
+      </div>
+    </Link>
   );
 };
