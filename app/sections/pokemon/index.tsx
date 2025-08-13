@@ -8,6 +8,9 @@ import Image from "next/image";
 import { fetcher } from "@/app/lib/api";
 import PokemonDetailsSkeleton from "@/app/components/shared/PokemonDetailsSkeleton";
 import { FavoriteButton } from "@/app/components/pokemon/FavoriteButton";
+import NoteForm from "@/app/components/pokemon/NoteForm";
+import { useNoteStore } from "@/app/state/useNoteStore";
+import { formatName, getTypeColor } from "@/app/utils/helpers";
 
 interface PokemonDetails {
   id: number;
@@ -46,6 +49,7 @@ interface PokemonDetails {
 const PokemonDetailsIndex = () => {
   const params = useParams();
   const pokemonName = params.name as string;
+  const { notes, addNote } = useNoteStore();
 
   const {
     data: pokemon,
@@ -55,6 +59,12 @@ const PokemonDetailsIndex = () => {
     pokemonName ? `https://pokeapi.co/api/v2/pokemon/${pokemonName}` : null,
     fetcher,
   );
+
+  const handleAddNote = (note: string) => {
+    if (pokemon?.id) {
+      addNote(pokemon.id, note);
+    }
+  };
 
   if (isLoading) {
     return <PokemonDetailsSkeleton />;
@@ -82,33 +92,7 @@ const PokemonDetailsIndex = () => {
     );
   }
 
-  const formatStatName = (name: string) => {
-    return name.replace("-", " ").replace(/\b\w/g, (l) => l.toUpperCase());
-  };
-
-  const getTypeColor = (typeName: string) => {
-    const colors: { [key: string]: string } = {
-      normal: "bg-gray-400",
-      fire: "bg-red-500",
-      water: "bg-blue-500",
-      electric: "bg-yellow-400",
-      grass: "bg-green-500",
-      ice: "bg-blue-200",
-      fighting: "bg-red-700",
-      poison: "bg-purple-500",
-      ground: "bg-yellow-600",
-      flying: "bg-indigo-400",
-      psychic: "bg-pink-500",
-      bug: "bg-green-400",
-      rock: "bg-yellow-800",
-      ghost: "bg-purple-700",
-      dragon: "bg-indigo-700",
-      dark: "bg-gray-800",
-      steel: "bg-gray-500",
-      fairy: "bg-pink-300",
-    };
-    return colors[typeName] || "bg-gray-400";
-  };
+  const pokemonNotes = notes[pokemon.id] || [];
 
   return (
     <div className="container mx-auto p-4">
@@ -198,7 +182,7 @@ const PokemonDetailsIndex = () => {
                 className="flex items-center justify-between"
               >
                 <span className="text-slate-600 capitalize">
-                  {formatStatName(stat.stat.name)}
+                  {formatName(stat.stat.name)}
                 </span>
                 <div className="flex items-center gap-2">
                   <div className="w-24 bg-slate-200 rounded-full h-2">
@@ -265,6 +249,24 @@ const PokemonDetailsIndex = () => {
           </div>
         </div>
       )}
+
+      {/* Notes */}
+      <div className="mt-8">
+        <h2 className="text-2xl font-semibold dark:text-white">Your Notes</h2>
+        {pokemonNotes.length > 0 ? (
+          <ul className="list-disc list-inside mt-4 space-y-2 dark:text-gray-300">
+            {pokemonNotes.map((note, index) => (
+              <li key={index}>{note}</li>
+            ))}
+          </ul>
+        ) : (
+          <p className="mt-4 dark:text-gray-400">
+            No notes yet. Add one below!
+          </p>
+        )}
+      </div>
+
+      <NoteForm onAddNote={handleAddNote} />
     </div>
   );
 };

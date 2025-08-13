@@ -22,7 +22,7 @@ const HomePageIndex = () => {
     searchParams.get("favorites") === "true",
   );
 
-  const [setObserveNode, entry] = useIntersectionObserver({
+  const [, entry] = useIntersectionObserver({
     threshold: 0.1,
   });
 
